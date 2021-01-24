@@ -1,0 +1,101 @@
+{
+    "SETUP": {
+        "vocabulary_dims": {
+            "action": "size",
+            "over": "feature_indices"
+        },
+        "label_features": {
+            "action": "size",
+            "over": "v_lbl_fts"
+        },
+        "num_labels": {
+            "action": "size",
+            "over": "label_indices"
+        }
+    },
+    "DEFAULT": {
+        "feature_type": "sparse",
+        "embedding_dims": 512,
+        "dlr_factor": 0.5,
+        "num_labels": 312330,
+        "A": 0.55,
+        "B": 1.5,
+        "filter_labels": "filter_labels_test.txt",
+        "b_factors": [
+            17
+        ],
+        "beam_size": 160,
+        "cluster_method": "Parabel",
+        "num_trees": 3,
+        "optim": "Adam",
+        "tr_feat_fname": "trn_X_Xf.txt",
+        "tr_label_fname": "trn_X_Y.txt",
+        "ts_feat_fname": "tst_X_Xf.txt",
+        "ts_label_fname": "tst_X_Y.txt",
+        "val_feat_fname": "tst_X_Xf.txt",
+        "val_label_fname": "tst_X_Y.txt",
+        "label_words": "Yf.txt",
+        "force_shallow": true,
+        "model_method": "parabel",
+        "normalize": true,
+        "momentum": 0.9,
+        "weight_decay": 0,
+        "num_workers": 6,
+        "keep_invalid": false,
+        "validate_after": 5,
+        "embeddings": "#ARGS.data_dir;/#ARGS.dataset;/random",
+        "feature_indices": "#ARGS.data_dir;/#ARGS.dataset;/df-xml_data/features_split.txt",
+        "label_indices": "#ARGS.data_dir;/#ARGS.dataset;/df-xml_data/labels_split.txt",
+        "v_lbl_fts": "#ARGS.data_dir;/#ARGS.dataset;/df-xml_data/v_lbs_fts_split.txt"
+    },
+    "DECAF-S": {
+        "freeze_embeddings": false,
+        "dropout": 0.5,
+        "batch_sizes": [
+            255
+        ],
+        "depth_lrs": [
+            0.01
+        ],
+        "call_backs": [
+            20
+        ],
+        "dlr_steps": [
+            10
+        ],
+        "layers": [
+            "DECAFh"
+        ],
+        "trans_method": "./json/DECAF-surrogate.json",
+        "validate": true,
+        "use_classifier_wts": false
+    },
+    "DECAF-lite": {
+        "embeddings": "#ARGS.emb_dir;/embeddings.pkl",
+        "freeze_embeddings": true,
+        "dropout": 0.2,
+        "batch_sizes": [
+            255,
+            255
+        ],
+        "depth_lrs": [
+            0.008,
+            0.008
+        ],
+        "call_backs": [
+            10,
+            10
+        ],
+        "dlr_steps": [
+            5,
+            5
+        ],
+        "layers": [
+            "DECAFh",
+            "DECAFt"
+        ],
+        "trans_method": "./json/DECAF.json",
+        "validate": true,
+        "use_classifier_wts": true
+    }
+}

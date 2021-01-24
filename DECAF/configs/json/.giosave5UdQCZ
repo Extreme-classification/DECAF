@@ -1,0 +1,42 @@
+{
+    "transform_coarse": {
+        "order": [
+            "tfidf_embed"
+        ],
+        "tfidf_embed": {
+            "num_embeddings": "#ARGS.vocabulary_dims;",
+            "embedding_dim": "#ARGS.embedding_dims;",
+            "padding_idx": "#ARGS.vocabulary_dims;",
+            "scale_grad_by_freq": false,
+            "sparse": true
+        }
+    },
+    "transform_fine": {
+        "order": [
+            "Rpp",
+            "relu",
+            "dropout"
+        ],
+        "Rpp": {
+            "input_size": "#ARGS.embedding_dims;",
+            "output_size": "#ARGS.embedding_dims;",
+            "dropout": "#ARGS.dropout;",
+            "transform": true
+        },
+        "relu": {},
+        "dropout": {
+            "p": "#ARGS.dropout;"5
+        }
+    },
+    "transform_label": {
+        "order": [
+            "Rpp"
+        ],
+        "Rpp": {
+            "input_size": "#ARGS.embedding_dims;",
+            "output_size": "#ARGS.embedding_dims;",
+            "dropout": "#ARGS.dropout;",
+            "transform": true
+        }
+    }
+}
