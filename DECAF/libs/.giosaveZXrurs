@@ -1,0 +1,286 @@
+from libs.parameters_base import ParametersBase
+
+
+class Parameters(ParametersBase):
+    """
+        Parameter class for XML Classifiers
+    """
+
+    def __init__(self, description):
+        super().__init__(description)
+        self._construct()
+
+    def _construct(self):
+        super()._construct()
+        self.parser.add_argument(
+            '--model_method',
+            dest='model_method',
+            default='full',
+            action='store',
+            type=str,
+            help='Model method (full/shortlist/ns)')
+        self.parser.add_argument(
+            '--top_k',
+            dest='top_k',
+            default=50,
+            action='store',
+            type=int,
+            help='#labels to predict for each document')
+        self.parser.add_argument(
+            '--num_workers',
+            dest='num_workers',
+            default=6,
+            action='store',
+            type=int,
+            help='#workers in data loader')
+        self.parser.add_argument(
+            '--label_indices',
+            dest='label_indices',
+            default=None,
+            action='store',
+            type=str,
+            help='Use these labels only')
+        self.parser.add_argument(
+            '--feature_indices',
+            dest='feature_indices',
+            default=None,
+            action='store',
+            type=str,
+            help='Use these features only')
+        self.parser.add_argument(
+            '--num_labels',
+            dest='num_labels',
+            default=-1,
+            action='store',
+            type=int,
+            help='#labels')
+        self.parser.add_argument(
+            '--vocabulary_dims',
+            dest='vocabulary_dims',
+            default=-1,
+            action='store',
+            type=int,
+            help='#features')
+        self.parser.add_argument(
+            '--padding_idx',
+            dest='padding_idx',
+            default=0,
+            action='store',
+            type=int,
+            help='padding_idx')
+        self.parser.add_argument(
+            '--dlr_factor',
+            dest='dlr_factor',
+            default=0.5,
+            action='store',
+            type=float,
+            help='dlr_factor')
+        self.parser.add_argument(
+            '--m',
+            dest='momentum',
+            default=0.9,
+            action='store',
+            type=float,
+            help='momentum')
+        self.parser.add_argument(
+            '--w',
+            dest='weight_decay',
+            default=0.0,
+            action='store',
+            type=float,
+            help='weight decay parameter')
+        self.parser.add_argument(
+            '--optim',
+            dest='optim',
+            default='SGD',
+            action='store',
+            type=str,
+            help='Optimizer')
+        self.parser.add_argument(
+            '--embedding_dims',
+            dest='embedding_dims',
+            default=300,
+            action='store',
+            type=int,
+            help='embedding dimensions')
+        self.parser.add_argument(
+            '--embeddings',
+            dest='embeddings',
+            default='fasttextB_embeddings_300d.npy',
+            action='store',
+            type=str,
+            help='embedding file name')
+        self.parser.add_argument(
+            '--validate_after',
+            dest='validate_after',
+            default=5,
+            action='store',
+            type=int,
+            help='Validate after these many epochs.')
+        self.parser.add_argument(
+            '--hidden_dims',
+            dest='hidden_dims',
+            default=300,
+            action='store',
+            type=int,
+            help='units in penultimate layer')
+        self.parser.add_argument(
+            '--label_padding_index',
+            dest='label_padding_index',
+            default=None,
+            type=int,
+            action='store',
+            help='Pad with this')
+        self.parser.add_argument(
+            '--mode',
+            dest='mode',
+            default='train',
+            type=str,
+            action='store',
+            help='train or predict')
+        self.parser.add_argument(
+            '--keep_invalid',
+            action='store_true',
+            help='Keep labels which do not have any training instance!.')
+        self.parser.add_argument(
+            '--freeze_embeddings',
+            action='store_true',
+            help='Do not train word embeddings.')
+        self.parser.add_argument(
+            '--validate',
+            action='store_true',
+            help='Validate or just train')
+        self.parser.add_argument(
+            '--normalize',
+            action='store_true',
+            help='Normalize features or not!')
+        self.parser.add_argument(
+            '--use_classifier_wts',
+            action='store_true',
+            help='Use pre-computed features to initiaize the classifier'
+        )
+        self.parser.add_argument(
+            '--trans_method',
+            type=str,
+            help='Model config file'
+        )
+        
+        self.parser.add_argument(
+            '--label_features',
+            type=int,
+            default=None,
+            help='Size of label features'
+        )
+        self.parser.add_argument(
+            '--lbl_folder',
+            type=str,
+            default=None,
+            help='Folder to choose embeddings from'
+        )
+        self.parser.add_argument(
+            '--label_words',
+            type=str,
+            default=None,
+            help='Path to file containing label features'
+        )
+        self.parser.add_argument(
+            '--v_lbl_fts',
+            type=str,
+            default=None,
+            help='Path to file containing label features'
+        )
+        self.parser.add_argument(
+            '--raw_dir',
+            type=str,
+            default='./RawData',
+            help='Raw data directory for the dataset'
+        )
+        self.parser.add_argument(
+            '--force_shallow',
+            action='store_true',
+            help='Forcing tree to be shallow'
+        )
+        self.parser.add_argument(
+            '--cluster_method',
+            type=str,
+            default="Parabel",
+            help='Clustering stratergy to be used in DeepXML-P'
+        )
+        self.parser.add_argument(
+            '--b_factors',
+            type=int,
+            nargs="+",
+            default=[15],
+            help='Branching factor of the tree'
+        )
+        self.parser.add_argument(
+            '--beam_size',
+            type=int,
+            default=20,
+            help='Beam size for tree'
+        )
+        self.parser.add_argument(
+            '--batch_sizes',
+            type=int,
+            nargs="+",
+            default=[255, 255],
+            help='batch sizes foe each depth'
+        )
+        self.parser.add_argument(
+            '--depth_lrs',
+            type=float,
+            nargs="+",
+            default=[0.01, 0.01],
+            help='learning rates for each depth'
+        )
+        self.parser.add_argument(
+            '--call_backs',
+            type=int,
+            nargs="+",
+            default=[20, 12],
+            help='Call backs for each depth'
+        )
+        self.parser.add_argument(
+            '--dlr_steps',
+            type=float,
+            nargs="+",
+            default=[14, 6],
+            help='Decrease learning rates for each depth'
+        )
+        self.parser.add_argument(
+            '--layers',
+            type=str,
+            nargs="+",
+            default=["DeepXML-h", "DeepXMLt"],
+            help='Decrease learning rates for each depth'
+        )
+        self.parser.add_argument(
+            '--tree_idx',
+            type=int,
+            default=0,
+            help='Tree index to train'
+        )
+        self.parser.add_argument(
+            '--num_clf_partitions',
+            type=int,
+            default=1,
+            help='Number of classifier partitions'
+        )
+        self.parser.add_argument(
+            '--filter_labels',
+            type=str,
+            default='filter_labels.txt',
+            help='File for filtering labels in predictions'
+        )
+        self.parser.add_argument(
+            '--label_centroids',
+            type=str,
+            default=None,
+            help="Label centroids"
+        )
+        self.parser.add_argument(
+            '--dropout',
+            type=float,
+            default=0.5,
+            help='Dropout for models'
+        )
