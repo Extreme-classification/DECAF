@@ -33,10 +33,11 @@ unzip *.zip
 
 #### RUNNING DECAF
 ```
-cd ${HOME}/scratch/XC/programs
-./run_DECAF <gpu_id> <DECAF TYPE> <dataset> <folder name>
+cd ${HOME}/scratch/XC/programs/DECAF
+chmod +x run_DECAF.sh
+./run_DECAF.sh <gpu_id> <DECAF TYPE> <dataset> <folder name>
 e.g.
-./run_DECAF 0 DECAF LF-AmazonTitles-131K DECAF_RUN
-./run_DECAF 0 DECAF-lite LF-AmazonTitles-131K DECAF_RUN
+./run_DECAF.sh 0 DECAF LF-AmazonTitles-131K DECAF_RUN
+./run_DECAF.sh 0 DECAF-lite LF-AmazonTitles-131K DECAF_RUN
 
 ```
