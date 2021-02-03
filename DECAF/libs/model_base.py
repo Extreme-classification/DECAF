@@ -545,6 +545,44 @@ class ModelDECAFBase(object):
         torch.cuda.empty_cache()
         embeddings = self.net.depth_node.embed.cpu().state_dict()
         return embeddings
+    
+    def get_document(self, data_dir, model_dir, dataset, data=None,
+                     ts_feat_fname='tst_X_Xf.txt', batch_size=256,
+                     num_workers=6, keep_invalid=False, if_labels=False,
+                     feature_indices=None, label_indices=None,
+                     normalize_features=True, normalize_labels=False, **kwargs):
+        self.net.load(fname=model_dir)
+        self.net._prep_for_depth(0, initialize=False)
+        self.load(model_dir, 0)
+        dataset = self._create_dataset(
+            os.path.join(data_dir, dataset), fname_features=ts_feat_fname,
+            fname_labels=ts_feat_fname, data=data,
+            keep_invalid=keep_invalid, normalize_features=normalize_features,
+            normalize_labels=normalize_labels, mode='test',
+            feature_indices=feature_indices, label_indices=label_indices)
+        self.net.cpu()
+        print(self.net)
+        self.net.to()
+        docs = self._doc_embed(dataset, 0, self.net.depth_node, if_labels)
+        return docs
+
+    def _doc_embed(self, dataset, depth, encoder, return_coarse=False, **kwargs):
+        encoder.to()
+        torch.set_grad_enabled(False)
+        torch.cuda.empty_cache()
+        encoder.eval()
+        data_loader = self._prep_dl(depth, dataset, mode='test')
+        num_batches = len(data_loader)
+        docs = []
+        for batch_idx, batch_data in enumerate(data_loader):
+            docs.append(encoder.encode(
+                batch_data, return_coarse).cpu().numpy())
+            if batch_idx % self.progress_step == 0:
+                self.logger.info("Fectching progress: [{}/{}]".format(
+                    batch_idx, num_batches))
+        encoder.cpu()
+        docs = np.vstack(docs)
+        return docs
 
     def _doc_embed(self, dataset, depth=0, return_coarse=False, encoder=None):
         """

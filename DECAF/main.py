@@ -106,6 +106,62 @@ def extract(model, params):
                                             "embeddings.pkl"))
 
 
+def get_documents(model, params):
+    """Generates document embeddings
+    Parameters
+    ----------
+    model: DECAF
+        train this model (typically DECAF model)
+    params: NameSpace
+        parameter of the model
+    """
+    documents = model.get_document(
+        data_dir=params.data_dir,
+        dataset=params.dataset,
+        model_dir=params.model_dir,
+        ts_feat_fname=params.ts_feat_fname,
+        normalize_features=params.normalize,
+        num_workers=params.num_workers,
+        data={'X': None, 'Y': None},
+        keep_invalid=params.keep_invalid,
+        feature_indices=params.feature_indices,
+        label_indices=params.label_indices,
+        shortlist_method=params.cluster_method,
+        if_labels=False,
+    )
+    np.save(os.path.join(params.result_dir,
+                         params.pred_fname),
+            documents)
+
+
+def get_labels(model, params):
+    """Generates label embeddings
+    Parameters
+    ----------
+    model: DECAF
+        train this model (typically DECAF model)
+    params: NameSpace
+        parameter of the model
+    """
+    documents = model.get_document(
+        data_dir=params.data_dir,
+        dataset=params.dataset,
+        model_dir=params.model_dir,
+        ts_feat_fname=params.ts_feat_fname,
+        normalize_features=params.normalize,
+        num_workers=params.num_workers,
+        data={'X': None, 'Y': None},
+        keep_invalid=params.keep_invalid,
+        feature_indices=params.feature_indices,
+        label_indices=params.label_indices,
+        shortlist_method=params.cluster_method,
+        if_labels=True,
+    )
+    np.save(os.path.join(params.result_dir,
+                         params.pred_fname),
+            documents)
+
+
 def construct_network(params):
     """
         Construct network based on the configuration
@@ -139,9 +195,9 @@ def main(params):
     net = construct_network(params)
     embeddings = load_embeddings(params)
     net._init_emb(embeddings)
+    print("Model parameters: ", params)
     if params.mode == 'train':
         params.label_padding_index = params.num_labels
-        print("Model parameters: ", params)
         criterion = torch.nn.BCEWithLogitsLoss(reduction='mean')
         optimizer = optimizer_utils.Optimizer(
             learning_rate=0.01, opt_type=params.optim,
@@ -152,16 +208,12 @@ def main(params):
         train(model, params)
 
     elif params.mode == 'predict':
-        fname = os.path.join(params.result_dir, 'params.json')
-        print("Model parameters: ", params)
         model = construct_model(params, net, None, None, None)
         model.transfer_to_devices()
         inference(model, params)
 
     elif params.mode == 'extract':
-        fname = os.path.join(params.result_dir, 'params.json')
         net = construct_network(params)
-        print("Model parameters: ", params)
         model = construct_model(params, net, None, None, None)
         model.transfer_to_devices()
         extract(model, params)
