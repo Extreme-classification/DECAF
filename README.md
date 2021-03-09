@@ -1,5 +1,14 @@
 # DECAF
 DECAF: Deep Extreme Classification with Label Features
+```
+@InProceedings{Mittal21,
+    author = "Mittal, A. and Dahiya, K. and Agrawal, S. and Saini, D. and Agarwal, S. and Kar, P. and Varma, M.",
+    title = "DECAF: Deep Extreme Classification with Label Features",
+    booktitle = "Proceedings of the ACM International Conference on Web Search and Data Mining",
+    month = "March",
+    year = "2021",
+    }
+```
 
 #### SETUP WORKSPACE
 ```
