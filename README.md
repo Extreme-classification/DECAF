@@ -25,11 +25,11 @@ cd ${HOME}/scratch/XC/data
 gdown --id <dataset id>
 unzip *.zip
 ```
-| dataset                   | dataset id |
-|---------------------------|------------|
-| LF-AmazonTitles-131K      | <>         |
-| LF-WikiSeeAlsoTitles-131K | <>         |
-| LF-AmazonTitles-1.3M      | <>         |
+| dataset                   | dataset id                        |
+|---------------------------|-----------------------------------|
+| LF-AmazonTitles-131K      | 1VlfcdJKJA99223fLEawRmrXhXpwjwJKn |
+| LF-WikiSeeAlsoTitles-131K | 1edWtizAFBbUzxo9Z2wipGSEA9bfy5mdX |
+| LF-AmazonTitles-1.3M      | 1Davc6BIfoTIAS3mP1mUY5EGcGr2zN2pO |
 
 #### RUNNING DECAF
 ```
