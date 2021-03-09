@@ -1,6 +1,6 @@
 # DECAF
 DECAF: Deep Extreme Classification with Label Features
-```
+```bib
 @InProceedings{Mittal21,
     author = "Mittal, A. and Dahiya, K. and Agrawal, S. and Saini, D. and Agarwal, S. and Kar, P. and Varma, M.",
     title = "DECAF: Deep Extreme Classification with Label Features",
@@ -11,13 +11,13 @@ DECAF: Deep Extreme Classification with Label Features
 ```
 
 #### SETUP WORKSPACE
-```
+```bash
 mkdir -p ${HOME}/scratch/XC/data 
 mkdir -p ${HOME}/scratch/XC/programs
 ```
 
 #### SETUP DECAF
-```
+```bash
 cd ${HOME}/scratch/XC/programs
 git clone https://github.com/Extreme-classification/DECAF.git
 conda create -f DECAF/decaf_env.yml
@@ -29,7 +29,7 @@ cd ../DECAF
 ```
 
 #### DOWNLOAD DATASET
-```
+```bash
 cd ${HOME}/scratch/XC/data
 gdown --id <dataset id>
 unzip *.zip
@@ -41,7 +41,7 @@ unzip *.zip
 | LF-AmazonTitles-1.3M      | 1Davc6BIfoTIAS3mP1mUY5EGcGr2zN2pO |
 
 #### RUNNING DECAF
-```
+```bash
 cd ${HOME}/scratch/XC/programs/DECAF
 chmod +x run_DECAF.sh
 ./run_DECAF.sh <gpu_id> <DECAF TYPE> <dataset> <folder name>
