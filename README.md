@@ -1,5 +1,5 @@
 # DECAF
-[DECAF: Deep Extreme Classification with Label Features](http://manikvarma.org/pubs/mittal21-main.pdf)
+## [DECAF: Deep Extreme Classification with Label Features](http://manikvarma.org/pubs/mittal21-main.pdf)
 ```bib
 @InProceedings{Mittal21,
     author = "Mittal, A. and Dahiya, K. and Agrawal, S. and Saini, D. and Agarwal, S. and Kar, P. and Varma, M.",
