@@ -50,3 +50,7 @@ e.g.
 ./run_DECAF.sh 0 DECAF-lite LF-AmazonTitles-131K DECAF_RUN
 
 ```
+
+#### YOU MAY ALSO LIKE
+- [DeepXML: A Deep Extreme Multi-Label Learning Framework Applied to Short Text Documents](https://github.com/Extreme-classification/deepxml)
+- [ECLARE: Extreme Classification with Label Graph Correlations](https://github.com/Extreme-classification/ECLARE)
